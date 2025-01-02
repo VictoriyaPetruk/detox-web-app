@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detox Statistics</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { text-align: center; }
+        .stat { margin: 10px 0; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Detox Statistics</h1>
+        <div class="stat" id="totalMinutes">Loading...</div>
+        <div class="stat" id="percentageOfDay">Loading...</div>
+    </div>
+    <script>
+        // Get data from Telegram Web App
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+        const initData = Telegram.WebApp.initDataUnsafe;
+
+        // Simulated data for now, replace with actual server call
+        const detoxData = initData && initData.query_id
+            ? JSON.parse(initData.query_id) 
+            : { totalMinutes: 120, percentageOfDay: 12.5 };
+
+        // Update UI
+        document.getElementById('totalMinutes').innerText = 
+            `Total Time Without Social Media: ${detoxData.totalMinutes} minutes`;
+        document.getElementById('percentageOfDay').innerText = 
+            `This is ${detoxData.percentageOfDay}% of your day.`;
+    </script>
+</body>
+</html>
