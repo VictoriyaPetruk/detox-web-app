@@ -17,21 +17,30 @@
         <div class="stat" id="percentageOfDay">Loading...</div>
     </div>
     <script>
-        // Get data from Telegram Web App
-        Telegram.WebApp.ready();
-        Telegram.WebApp.expand();
-        const initData = Telegram.WebApp.initDataUnsafe;
+        // Helper function to parse query parameters
+        function getQueryParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1); // Get the query string without '?'
+            const pairs = queryString.split("&");
+            pairs.forEach(pair => {
+                const [key, value] = pair.split("=");
+                params[decodeURIComponent(key)] = decodeURIComponent(value);
+            });
+            return params;
+        }
 
-        // Simulated data for now, replace with actual server call
-        const detoxData = initData && initData.query_id
-            ? JSON.parse(initData.query_id) 
-            : { totalMinutes: 120, percentageOfDay: 12.5 };
+        // Get query parameters
+        const params = getQueryParams();
 
-        // Update UI
+        // Validate parameters
+        const totalMinutes = params.totalMinutes || "N/A";
+        const percentageOfDay = params.percentageOfDay || "N/A";
+
+        // Update the UI
         document.getElementById('totalMinutes').innerText = 
-            `Total Time Without Social Media: ${detoxData.totalMinutes} minutes`;
+            `Total Time Without Social Media: ${totalMinutes} minutes`;
         document.getElementById('percentageOfDay').innerText = 
-            `This is ${detoxData.percentageOfDay}% of your day.`;
+            `This is ${percentageOfDay}% of your day.`;
     </script>
 </body>
 </html>
